@@ -19,6 +19,10 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+                <div>
+                    benvenuto {{$user->name}}
+                    benvenuto {{$user->email}}
+                </div>
             </div>
         </div>
     </div>

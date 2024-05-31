@@ -49,8 +49,15 @@ class ProjectController extends Controller
                     
                     Rule::unique('projects')->ignore($project)
                 ]
-                
+                ],
+                [
+                    'name.required'=>'il nome non può essere vuoto',
+                    'unique'=>"il nome è già stato preso",
+                    'min'=>'il nome deve essere almeno 5 caratteri',
+                    'max'=>'il nome può avere massimo 150 caratteri'
                 ]
+                
+                
                 
         );
         $newProject = new Project;
@@ -100,10 +107,14 @@ class ProjectController extends Controller
                     'max:150',
                     
                     Rule::unique('projects')->ignore($project)
-                ],[
-                    'name.required'=>'il nome è gia preso',
-                ]
+                ],
                 
+            ],
+                [
+                    'name.required'=>'il nome non può essere vuoto',
+                    'unique'=>"il nome è già stato preso",
+                    'min'=>'il nome deve essere almeno 5 caratteri',
+                    'max'=>'il nome può avere massimo 150 caratteri'
                 ]
                 
         );

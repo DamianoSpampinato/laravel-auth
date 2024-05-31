@@ -3,6 +3,14 @@
         <form action="{{route('admin.projects.update', ['project' => $project->id])}}" method="POST">
             @method('PUT')
             @csrf
+            @if ($errors->any())
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+
+            </ul>
+            @endif
             <div class="my-2">
                 <input class="w-25" type="text" placeholder="inserisci name" name="name" value="{{$project->name}}">
             </div>

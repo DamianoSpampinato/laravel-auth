@@ -100,6 +100,8 @@ class ProjectController extends Controller
                     'max:150',
                     
                     Rule::unique('projects')->ignore($project)
+                ],[
+                    'name.required'=>'il nome è gia preso',
                 ]
                 
                 ]

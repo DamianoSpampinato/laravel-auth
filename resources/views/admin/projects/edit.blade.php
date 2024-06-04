@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-        <form action="{{route('admin.projects.update', ['project' => $project->id])}}" method="POST">
+        <form action="{{route('admin.projects.update', ['project' => $project->id])}}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             @if ($errors->any())
@@ -19,6 +19,9 @@
             </div>
             <div class="my-2">
                 <input class="w-25" type="textarea" placeholder="inserisci summary" name="summary" value="{{$project->summary}}">
+            </div>
+            <div>
+                <input type="file" name="img" id="img">
             </div>
             <button class="btn btn-primary" type="submit">salva</button>
         </form>

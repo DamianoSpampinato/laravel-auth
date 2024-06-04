@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -48,8 +49,14 @@ class ProjectController extends Controller
                     'max:150',
                     
                     Rule::unique('projects')->ignore($project)
-                ]
                 ],
+                'img'=> [
+                    'nullable',
+                    'image',
+                    'max:256'
+                ]
+
+            ],
                 [
                     'name.required'=>'il nome non può essere vuoto',
                     'unique'=>"il nome è già stato preso",
@@ -62,6 +69,14 @@ class ProjectController extends Controller
         );
         $newProject = new Project;
         $formData = $request->all();
+        //controllo se il campo img contiene una immagine
+        if($request->hasFile('img')){
+            //carico il file nella cartella
+            $img=Storage::disk('public')->put('Project_image', $formData['img']);
+            //salvo il path dell'immagine nella colonna
+            $formData['img'] = $img;
+        }
+
         $newProject->fill($formData);
         $newProject->slug = Str::slug($newProject->name,'-');
         $newProject->save();
@@ -108,6 +123,11 @@ class ProjectController extends Controller
                     
                     Rule::unique('projects')->ignore($project)
                 ],
+                'img'=> [
+                    'nullable',
+                    'image',
+                    'max:256'
+                ],
                 
             ],
                 [
@@ -119,6 +139,14 @@ class ProjectController extends Controller
                 
         );
         $formData = $request->all();
+        //controllo se il campo img contiene una immagine
+        if($request->hasFile('img')){
+           if($project->img){
+            Storage::delete($project->img);
+           }
+           $img= Storage::disk('public')->put('Project_image', $formData['img']);
+           $formData['img'] = $img;
+        }
         $formData['slug'] = Str::slug($formData['name'],'-');
         $project->update($formData);
         return redirect()->route('admin.projects.show', ['project'=> $project->id]);
